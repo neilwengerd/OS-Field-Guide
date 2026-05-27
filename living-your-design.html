@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Living your design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1814;
+    --ink-2: #4a4640;
+    --ink-3: #8a8580;
+    --paper: #f7f4ef;
+    --paper-2: #ede9e2;
+    --paper-3: #e0dbd2;
+    --amber: #b87333;
+    --amber-light: #f0e8d8;
+    --teal: #3d6b5e;
+    --teal-light: #dceee8;
+    --purple: #4a4080;
+    --purple-light: #eceaf8;
+    --coral: #8b4a3a;
+    --coral-light: #f2e4de;
+    --blue: #2d5080;
+    --blue-light: #dde8f5;
+    --serif: 'Lora', Georgia, serif;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* Header */
+  .site-header {
+    padding: 3rem 1.5rem 2rem;
+    border-bottom: 1px solid var(--paper-3);
+    background: var(--paper);
+  }
+
+  .site-header-eyebrow {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 0.75rem;
+  }
+
+  .site-header h1 {
+    font-family: var(--serif);
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+
+  .site-header p {
+    font-size: 14px;
+    color: var(--ink-3);
+    font-weight: 300;
+  }
+
+  /* Nav dots */
+  .nav-strip {
+    display: flex;
+    gap: 6px;
+    padding: 1rem 1.5rem;
+    background: var(--paper);
+    border-bottom: 1px solid var(--paper-3);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-strip::-webkit-scrollbar { display: none; }
+
+  .nav-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 400;
+    white-space: nowrap;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+    background: var(--paper-2);
+    color: var(--ink-2);
+    text-decoration: none;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
+  }
+  .nav-pill.active { font-weight: 500; }
+  .nav-pill.active[data-module="0"] { background: var(--amber-light); color: var(--amber); border-color: #d4a870; }
+  .nav-pill.active[data-module="1"] { background: var(--purple-light); color: var(--purple); border-color: #9b96cc; }
+  .nav-pill.active[data-module="2"] { background: var(--amber-light); color: var(--amber); border-color: #d4a870; }
+  .nav-pill.active[data-module="3"] { background: var(--coral-light); color: var(--coral); border-color: #c49080; }
+  .nav-pill.active[data-module="4"] { background: var(--blue-light); color: var(--blue); border-color: #8ab0d8; }
+
+  /* Modules */
+  .module { display: none; animation: fadeIn 0.3s ease; }
+  .module.active { display: block; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Module hero */
+  .module-hero {
+    padding: 2rem 1.5rem 1.5rem;
+    border-bottom: 1px solid var(--paper-3);
+  }
+
+  .module-number {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 0.5rem;
+  }
+
+  .module-title {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+  }
+
+  .module-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+  }
+
+  .tag-amber { background: var(--amber-light); color: var(--amber); }
+  .tag-purple { background: var(--purple-light); color: var(--purple); }
+  .tag-coral { background: var(--coral-light); color: var(--coral); }
+  .tag-blue { background: var(--blue-light); color: var(--blue); }
+  .tag-teal { background: var(--teal-light); color: var(--teal); }
+
+  .module-intro {
+    font-size: 15px;
+    color: var(--ink-2);
+    line-height: 1.75;
+  }
+
+  /* Sections */
+  .section {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--paper-3);
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 1rem;
+  }
+
+  .body-text {
+    font-size: 15px;
+    color: var(--ink-2);
+    line-height: 1.75;
+    margin-bottom: 1rem;
+  }
+  .body-text:last-child { margin-bottom: 0; }
+
+  /* Practice box */
+  .practice-box {
+    background: var(--paper-2);
+    border-left: 3px solid var(--paper-3);
+    border-radius: 0 8px 8px 0;
+    padding: 1.25rem 1.25rem 1.25rem 1.25rem;
+    margin: 1rem 0;
+  }
+
+  .practice-box.amber { border-left-color: var(--amber); }
+  .practice-box.purple { border-left-color: var(--purple); }
+  .practice-box.coral { border-left-color: var(--coral); }
+  .practice-box.blue { border-left-color: var(--blue); }
+  .practice-box.teal { border-left-color: var(--teal); }
+
+  .practice-box p {
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.75;
+  }
+
+  /* Pull quote */
+  .pull-quote {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--ink-2);
+    line-height: 1.65;
+    padding: 1rem 0;
+    border-top: 1px solid var(--paper-3);
+    border-bottom: 1px solid var(--paper-3);
+    margin: 1.25rem 0;
+  }
+
+  /* Checklist */
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 15px;
+    color: var(--ink-2);
+    line-height: 1.65;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--paper-3);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li::before {
+    content: '';
+    width: 18px;
+    height: 18px;
+    border: 1px solid var(--paper-3);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 3px;
+    background: var(--paper);
+  }
+
+  /* Signal cards */
+  .signal-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 1rem 0;
+  }
+  .signal-card {
+    background: var(--paper-2);
+    border-radius: 10px;
+    padding: 1rem;
+  }
+  .signal-card-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .signal-card p {
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.6;
+  }
+  .signal-yes .signal-card-label { color: var(--teal); }
+  .signal-no .signal-card-label { color: var(--coral); }
+
+  /* Reminder card */
+  .reminder-card {
+    margin: 1.5rem;
+    background: var(--paper-2);
+    border-radius: 12px;
+    padding: 1.25rem;
+    border: 1px solid var(--paper-3);
+  }
+  .reminder-card p {
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.7;
+  }
+  .reminder-card strong {
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  /* Check-in interactive */
+  .checkin-moment {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--paper-3);
+  }
+  .checkin-moment:last-child { border-bottom: none; }
+  .moment-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 15px;
+  }
+  .dot-amber { background: var(--amber-light); }
+  .dot-purple { background: var(--purple-light); }
+  .dot-teal { background: var(--teal-light); }
+
+  .moment-content { flex: 1; }
+  .moment-time { font-size: 11px; font-weight: 500; color: var(--ink-3); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .moment-question {
+    font-family: var(--serif);
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .moment-note { font-size: 13px; color: var(--ink-3); line-height: 1.55; }
+
+  /* Bottom spacer */
+  .bottom-spacer { height: 4rem; }
+
+  /* Subtle footer */
+  .site-footer {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 12px;
+    color: var(--ink-3);
+    border-top: 1px solid var(--paper-3);
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <p class="site-header-eyebrow">Generator · 1/3 · Sacral authority</p>
+  <h1>Living your design</h1>
+  <p>5 practices · open when you need it</p>
+</header>
+
+<nav class="nav-strip" role="navigation" aria-label="Module navigation">
+  <a class="nav-pill active" data-module="0" href="#">01 · Sacral</a>
+  <a class="nav-pill" data-module="1" href="#">02 · Frustration</a>
+  <a class="nav-pill" data-module="2" href="#">03 · Gate 57</a>
+  <a class="nav-pill" data-module="3" href="#">04 · Channel</a>
+  <a class="nav-pill" data-module="4" href="#">05 · Satisfaction</a>
+</nav>
+
+<!-- MODULE 01: Sacral Check-In -->
+<div class="module active" id="module-0">
+  <div class="module-hero">
+    <p class="module-number">Module 01 — Foundation</p>
+    <h2 class="module-title">The sacral check-in</h2>
+    <span class="module-tag tag-amber">Generator · Sacral authority</span>
+    <p class="module-intro">Your authority is in your body, not your reasoning. The sacral response is a gut sensation — a quiet yes or a quiet no — that appears before the mind can analyze. The practice is learning to hear it before the Watchdog starts talking.</p>
+  </div>
+
+  <div class="section">
+    <p class="section-label">What you're listening for</p>
+    <p class="body-text">The sacral signal is physical, not verbal. It doesn't arrive as a thought. For Generators it tends to show up as one of three things:</p>
+    <div class="signal-row">
+      <div class="signal-card signal-yes">
+        <p class="signal-card-label">Yes signal</p>
+        <p>A quiet opening or expansion in the chest or gut. Ease. A subtle lean-toward.</p>
+      </div>
+      <div class="signal-card signal-no">
+        <p class="signal-card-label">No signal</p>
+        <p>A contraction, heaviness, or flat nothing. A quiet pulling-away.</p>
+      </div>
+    </div>
+    <p class="body-text">Flatness — a kind of blankness — usually means <em>not this, not now.</em> That is also a signal.</p>
+    <p class="body-text">The problem: your open Head and Ajna amplify external mental pressure. By the time you're consciously deliberating, the original body signal is already buried under analysis. The check-in is about getting to the body first.</p>
+  </div>
+
+  <div class="section">
+    <p class="section-label">The interference pattern</p>
+    <p class="body-text">Your 6w5 will do something specific: it will hear the sacral signal and immediately generate a counterargument. <em>Yes, but what if... what about the risk... shouldn't I think this through?</em></p>
+    <p class="pull-quote">"The signal comes before the argument. The sequence is the whole practice."</p>
+    <p class="body-text">The counterargument is the Watchdog, not your design. Don't try to silence it — just notice that the body spoke first. Hold onto that. The mind's job is to figure out <em>how</em>, not <em>whether</em>.</p>
+  </div>
+
+  <div class="section">
+    <p class="section-label">Three daily moments</p>
+
+    <div class="checkin-moment">
+      <div class="moment-dot dot-amber">☀</div>
+      <div class="moment-content">
+        <p class="moment-time">Morning · 60 seconds · before phone</p>
+        <p class="moment-question">"Is there anything I'm already dreading today?"</p>
+        <p class="moment-note">Don't think about it. Notice if something lands with weight in the body. Weight is information.</p>
+      </div>
+    </div>
+
+    <div class="checkin-moment">
+      <div class="moment-dot dot-purple">✋</div>
+      <div class="moment-content">
+        <p class="moment-time">Decision pause · as needed · one breath</p>
+        <p class="moment-question">"Does my body open or close?"</p>
+        <p class="moment-note">Not looking for certainty — just direction. No signal at all = no for now. That's enough.</p>
+      </div>
+    </div>
+
+    <div class="checkin-moment">
+      <div class="moment-dot dot-teal">◑</div>
+      <div class="moment-content">
+        <p class="moment-time">Evening · 2 minutes · before sleep</p>
+        <p class="moment-question">"What felt right today?"</p>
+        <p class="moment-note">Not productive. Not successful. Right. Notice without analyzing — this trains you to recognize the satisfaction signal.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-label">This week</p>
+    <p class="body-text">Don't practice this on Campfire or financial decisions yet. Start small and low-stakes:</p>
+    <ul class="checklist">
+      <li>Which client email to write first</li>
+      <li>Whether to take a walk or stay at the desk</li>
+      <li>Whether to join a call or decline</li>
+      <li>What to eat for lunch</li>
+    </ul>
+    <p class="body-text" style="margin-top: 1rem;">Small decisions, clean data. You're learning to hear the signal before you need to trust it with anything that matters.</p>
+  </div>
+
+  <div class="reminder-card">
+    <p>The goal is not to make perfect decisions. It's to notice that your body was already responding before your mind was. One week of catching that sequence changes the relationship.</p>
+  </div>
+  <div class="bottom-spacer"></div>
+</div>
+
+<!-- MODULE 02: Frustration -->
+<div class="module" id="module-1">
+  <div class="module-hero">
+    <p class="module-number">Module 02 — Not-self theme</p>
+    <h2 class="module-title">Frustration as compass</h2>
+    <span class="module-tag tag-purple">Not-self theme · Generator</span>
+    <p class="module-intro">Frustration is your chart's built-in alarm system. It doesn't mean something is wrong with you — it means you're operating outside your design, usually initiating from pressure instead of responding to a genuine invitation.</p>
+  </div>
+
+  <div class="section">
+    <p class="section-label">What frustration actually means</p>
+    <p class="body-text">In Human Design, the not-self theme isn't a character flaw. It's a navigation signal. Frustration for Generators specifically points to one of two things:</p>
+    <div class="practice-box purple">
+      <p><strong>You initiated</strong> — you started something from your head, not from a genuine sacral response. There was no real "yes," just urgency or obligation or fear of missing out.</p>
+    </div>
+    <div class="practice-box purple" style="margin-top: 8px;">
+      <p><strong>You said yes to the wrong thing</strong> — your sacral gave a quiet no or nothing, and you overrode it with reasoning. Now you're dragging through work your body never agreed to.</p>
+    </div>
+    <p class="body-text" style="margin-top: 1rem;">Neither is a moral failure. Both are information. The frustration is pointing back to the moment of misalignment.</p>
+  </div>
+
+  <div class="section">
+    <p class="section-label">The 6w5 amplification</p>
+    <p class="body-text">Your Enneagram 6 adds a layer: when the Watchdog is running, it will initiate preemptively to prevent danger. It looks like responsible planning. It feels like being on top of things. But if there's no genuine sacral response underneath it, frustration follows.</p>
+    <p class="pull-quote">"The 6 mind moves to prevent the bad outcome. The sacral responds to what's actually here. These are different directions."</p>
+    <p class="body-text">The practice isn't to stop thinking ahead. It's to notice when the planning is coming from anxiety versus genuine readiness.</p>
+  </div>
+
+  <div class="section">
+    <p class="section-label">The weekly frustration trace</p>
+    <p class="body-text">Once a week — Sunday evening works well — look back at where you felt frustrated. For each one, ask:</p>
+    <ul class="checklist">
+      <li>Did I initiate this, or did I respond to something real?</li>
+      <li>Was there a genuine sacral yes, or was I moving from Watchdog pressure?</li>
+      <li>If I'd waited one day, would I still have done this?</li>
+    </ul>
+    <p class="body-text" style="margin-top: 1rem;">No fixing required. No correcting the past. Just notice the pattern. Over time, you'll start catching the initiation before it happens instead of after.</p>
+  </div>
+
+  <div class="section">
+    <p class="section-label">Satisfaction is the signal you're aiming for</p>
+    <p class="body-text">The opposite of frustration in this system isn't happiness — it's satisfaction. A quiet sense of rightness. Work that felt worth doing even when it was hard. A decision that held up.</p>
+    <p class="body-text">Satisfaction doesn't announce itself loudly. It's more like absence of friction. Notice it when it shows up — that's your design telling you it's aligned.</p>
+  </div>
+
+  <div class="reminder-card">
+    <p>When you feel frustration, resist the instinct to push harder. That's the OS 1.0 response — apply more force. The Generator response is to pause and ask: <strong>where did I stop responding and start initiating?</strong> That's the thread to pull.</p>
+  </div>
+  <div class="bottom-spacer"></div>
+</div>
+
+<!-- MODULE 03: Gate 57 -->
+<div class="module" id="module-2">
+  <div class="module-hero">
+    <p class="module-number">Module 03 — Gates</p>
+    <h2 class="module-title">Gate 57 — trusting the flash</h2>
+    <span class="module-tag tag-amber">Intuition · Spleen center · Sun gate</span>
+    <p class="module-intro">Gate 57 is your core life force. It's present-moment, non-repeating knowing — a quiet flash of clarity that arrives before analysis begins. Your Enneagram 6 mind will immediately try to verify it. That's the interference. This practice is about catching the flash first.</p>
+  </div>
+
+  <div class="section">
+    <p class="section-label">How Gate 57 actually works</p>
+    <p class="body-text">The Spleen center operates in the now. Gate 57 specifically is intuitive knowing — not logical deduction, not emotional processing, not gut excitement. It's more subtle than all of those. It arrives as:</p>
+    <ul class="checklist">
+      <li>A sudden quiet clarity about a person or situation</li>
+      <li>A felt sense that something is off before you can articulate why</li>
+      <li>A wordless knowing about which direction to take</li>
+      <li>A sense of rightness or wrongness about a space or environment</li>
+    </ul>
+    <p class="body-text" style="margin-top: 1rem;">The critical feature: <em>it doesn't repeat.</em> If you miss it or override it, it doesn't come back louder. It moves on. This is why catching it in the moment matters so much.</p>
+  </div>
+
+  <div class="section">
+    <p class="section-label">The 6's interference pattern</p>
+    <p class="body-text">The Enneagram 6 core fear is being blindsided — not having seen something coming. This creates a strong pull toward verification. When Gate 57 delivers a flash, the 6 mind immediately asks: <em>but is that actually right? What if I'm wrong? Let me think it through more carefully.</em></p>
+    <p class="pull-quote">"The 6 wants to make the intuition argument-proof before trusting it. But Gate 57 doesn't survive that process — it evaporates under scrutiny."</p>
+    <p class="body-text">The growth path here is almost identical to the Enneagram 6 → Nine vector: from mental scanning and verification toward embodied presence and trust. They're pointing at the same thing from different angles.</p>
+  </div>
+
+  <div class="section">
+    <p class="section-label">Conditions that strengthen the signal</p>
+    <p class="body-text">Gate 57 gets louder when your nervous system is regulated. The signal weakens under stress, overstimulation, and noise — which is also when the Watchdog is loudest. Creating conditions for the signal is the real practice:</p>
+    <div class="practice-box amber">
+      <p>Silence. Nature. Indirect light. Slow mornings. Time without input. These aren't luxuries — they're the conditions under which your strongest gift becomes audible.</p>
+    </div>
+    <p class="body-text">This is why the ambient music preference (Glass, Ólafsson, minimal) isn't just aesthetic. It's regulation. You're lowering the noise floor so the signal can be heard.</p>
+  </div>
+
+  <div class="section">
+    <p class="section-label">The flash journal — this week</p>
+    <p class="body-text">When something lands quietly — a sense about a person, a project, a direction — write it down in one sentence before you think about it. Don't evaluate it. Don't add caveats. Just the raw signal.</p>
+    <div class="practice-box amber">
+      <p><em>"Something felt off in that conversation."</em><br><em>"I don't think this project is what it's presenting itself as."</em><br><em>"That Campfire prospect is genuinely interested."</em></p>
+    </div>
+    <p class="body-text">At the end of the week, look back. Notice which flashes were accurate. This builds an evidence base — and for a 6, evidence is what eventually converts into trust.</p>
+  </div>
+
+  <div class="reminder-card">
+    <p>You are not building a new skill. You are recovering access to a signal you already have. Gate 57 is your Sun gate — it's central to who you are. The practice is just reducing the noise enough to hear what was always there.</p>
+  </div>
+  <div class="bottom-spacer"></div>
+</div>
+
+<!-- MODULE 04: Channel 10-57 -->
+<div class="module" id="module-3">
+  <div class="module-hero">
+    <p class="module-number">Module 04 — Channels</p>
+    <h2 class="module-title">Channel 10–57 — perfected form</h2>
+    <span class="module-tag tag-coral">Channel of Perfected Form · Survival</span>
+    <p class="module-intro">This channel connects authentic living (Gate 10, G Center) to present-moment intuition (Gate 57, Spleen). When these are aligned, you produce things of unusual quality — not from striving, but from being tuned. It's the channel that makes Grafica work feel effortless when you're right and labored when you're not.</p>
+  </div>
+
+  <div class="section">
+    <p class="section-label">What this channel actually means</p>
+    <p class="body-text">Gate 10 is about authentic self-expression — living in a way that is genuinely yours, not performed. Gate 57 is intuitive knowing in the present moment. When these work together, you're operating from a place of real authenticity guided by real-time intelligence.</p>
+    <p class="body-text">The "Perfected Form" isn't about perfectionism. It's about form that emerges from alignment rather than effort. There's a quality difference that other people can feel — they often can't name what it is, but they can feel when your work is coming from this place versus when you're grinding through it.</p>
+  </div>
+
+  <div class="section">
+    <p class="section-label">Where you've already felt it</p>
+    <p class="body-text">Think about the Grafica work that landed most powerfully — for clients, for yourself. There's almost certainly a pattern: you were unrushed, you were interested, and the direction arrived more than it was constructed.</p>
+    <p class="pull-quote">"When you're in the channel, the work knows where it wants to go. Your job is to stay out of its way long enough to follow it."</p>
+    <p class="body-text">This is also what Campfire is built on. The coaching work you do best isn't delivered from a framework — it arrives from presence. Channel 10-57 is the channel that makes that possible.</p>
+  </div>
+
+  <div class="section">
+    <p class="section-label">What breaks the channel</p>
+    <p class="body-text">The channel goes quiet when:</p>
+    <ul class="checklist">
+      <li>You're working from obligation rather than response</li>
+      <li>You're rushing to deliver before clarity has arrived</li>
+      <li>You're performing competence instead of just doing the work</li>
+      <li>The Watchdog has made the work about avoiding failure</li>
+    </ul>
+    <p class="body-text" style="margin-top: 1rem;">When you notice the work feels labored and airless, that's diagnostic information. Something upstream has pulled you out of the channel. The fix is rarely "try harder."</p>
+  </div>
+
+  <div class="section">
+    <p class="section-label">This week's practice</p>
+    <p class="body-text">Identify one piece of work this week — a client email, a layout direction, a Campfire conversation — and approach it differently. Before you begin:</p>
+    <div class="practice-box coral">
+      <p>Pause. Ask: <em>what does this want to be?</em> Not what should I make this, but what wants to emerge. Give it a few breaths before your hands move. Then follow rather than lead.</p>
+    </div>
+    <p class="body-text">Notice how it feels different when you're not forcing the form toward a predetermined outcome. That difference — however subtle — is the channel.</p>
+  </div>
+
+  <div class="reminder-card">
+    <p>Your design is built for <strong>small group and one-on-one work</strong> — that's the Quarter of Duality confirming what the channel already suggests. The intimacy isn't a limitation. It's the container where Channel 10-57 produces its best work. Campfire is exactly right.</p>
+  </div>
+  <div class="bottom-spacer"></div>
+</div>
+
+<!-- MODULE 05: Satisfaction Audit -->
+<div class="module" id="module-4">
+  <div class="module-hero">
+    <p class="module-number">Module 05 — Integration</p>
+    <h2 class="module-title">The satisfaction audit</h2>
+    <span class="module-tag tag-blue">Signature theme · Generator</span>
+    <p class="module-intro">Satisfaction is the signal that you're operating correctly — not happiness, not achievement. A quiet sense of rightness at the end of a day or week. This audit trains you to recognize it so you can orient toward it more deliberately.</p>
+  </div>
+
+  <div class="section">
+    <p class="section-label">Why satisfaction is the real metric</p>
+    <p class="body-text">Most of the tracking you've done in your career has been output-based: projects completed, income generated, goals hit. Those things matter, but they don't tell you whether you were <em>in your design</em> when you did them. You can achieve things from OS 1.0 all day long and feel hollow afterward.</p>
+    <p class="body-text">Satisfaction — the Generator's signature — is what you feel when work was genuinely responded to, genuinely engaged with, genuinely yours. It's quieter than pride and more durable than excitement.</p>
+    <p class="pull-quote">"Satisfaction doesn't announce itself. It's more like the absence of the friction you were braced for."</p>
+  </div>
+
+  <div class="section">
+    <p class="section-label">The distinction that matters</p>
+    <p class="body-text">There's a difference between work that felt <em>productive</em> and work that felt <em>right.</em> You can be productive from fear. You cannot feel satisfied from fear — you just feel relief, which is different.</p>
+    <div class="signal-row">
+      <div class="signal-card signal-yes">
+        <p class="signal-card-label">Satisfaction</p>
+        <p>Quiet. Grounded. "That was worth doing." Still present the next morning.</p>
+      </div>
+      <div class="signal-card signal-no">
+        <p class="signal-card-label">Relief</p>
+        <p>A release of tension. "Glad that's over." Followed by scanning for the next threat.</p>
+      </div>
+    </div>
+    <p class="body-text" style="margin-top: 0.75rem;">The audit helps you distinguish these — and notice which kinds of work tend to produce which.</p>
+  </div>
+
+  <div class="section">
+    <p class="section-label">The weekly audit — Sunday evening</p>
+    <p class="body-text">10 minutes. Three questions, written down or just sat with:</p>
+    <div class="practice-box blue">
+      <p style="margin-bottom: 0.75rem;"><strong>1.</strong> What three things felt genuinely right this week? Not impressive — right.</p>
+      <p style="margin-bottom: 0.75rem;"><strong>2.</strong> What one thing felt like friction the whole way through?</p>
+      <p><strong>3.</strong> For the friction: was there a sacral yes at the start, or did I initiate from obligation or anxiety?</p>
+    </div>
+    <p class="body-text">Over time — four to six weeks — you'll see a pattern. Certain kinds of work, certain kinds of clients, certain kinds of problems will cluster on the satisfaction side. Others will keep showing up in the friction column. That's your design telling you what it's actually built for.</p>
+  </div>
+
+  <div class="section">
+    <p class="section-label">What to do with the pattern</p>
+    <p class="body-text">Not immediately — but eventually — the audit becomes a decision filter. When something new comes in, you can ask: does this resemble the things that tend to land in the satisfaction column, or the friction column?</p>
+    <p class="body-text">This is Gate 57 working at a longer timescale: you're building an evidence base that your intuition can reference. The 6 gets its verification. The design gets its authority. Both get what they need.</p>
+  </div>
+
+  <div class="reminder-card">
+    <p>This is a sustainability year, not a growth year. The satisfaction audit is exactly the right practice for that frame. You're not trying to maximize output — you're trying to understand <strong>what your design wants to keep doing.</strong> That's the data that builds the next chapter.</p>
+  </div>
+  <div class="bottom-spacer"></div>
+</div>
+
+<footer class="site-footer">
+  Generator · 1/3 · Sacral · Gate 57 · Channel 10–57
+</footer>
+
+<script>
+  var pills = document.querySelectorAll('.nav-pill');
+  var modules = document.querySelectorAll('.module');
+
+  function showModule(index) {
+    modules.forEach(function(m, i) { m.classList.toggle('active', i === index); });
+    pills.forEach(function(p, i) { p.classList.toggle('active', i === index); });
+    window.scrollTo(0, 0);
+  }
+
+  pills.forEach(function(pill, index) {
+    pill.addEventListener('touchend', function(e) {
+      e.preventDefault();
+      showModule(index);
+    });
+    pill.addEventListener('click', function(e) {
+      e.preventDefault();
+      showModule(index);
+    });
+  });
+</script>
+</body>
+</html>
