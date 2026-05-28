@@ -332,10 +332,28 @@
     color: var(--ink-3);
     border-top: 1px solid var(--paper-3);
   }
+  /*Home link*/
+  .home-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 1rem 1.5rem 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-3);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: color 0.15s;
+  position: relative;
+  z-index: 1;
+  background: var(--paper);
+  display: block;
+}
+.home-link:hover { color: var(--amber); }
 </style>
 </head>
 <body>
-<a href="index.html" style="display:inline-flex;align-items:center;gap:0.4rem;padding:1rem 1.5rem 0;font-size:12px;font-weight:500;color:#8a8580;text-decoration:none;" >← Home</a>
+  <a href="index.html" class="home-link">← Home</a>
 <header class="site-header">
   <p class="site-header-eyebrow">Generator · 1/3 · Sacral authority</p>
   <h1>Living your design</h1>
