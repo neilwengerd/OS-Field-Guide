@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Manifestation Field Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1c1a17;
+    --ink-2: #4a4640;
+    --ink-3: #8a8580;
+    --paper: #f5f1ea;
+    --paper-2: #ede8e0;
+    --paper-3: #ddd8ce;
+    --ember: #b06030;
+    --ember-light: #f5e8dc;
+    --forest: #3a6050;
+    --forest-light: #daeae3;
+    --slate: #3d4d68;
+    --slate-light: #dde4f0;
+    --rust: #7a3828;
+    --rust-light: #f0e0d8;
+    --gold: #8a6820;
+    --gold-light: #f0e8d0;
+    --serif: 'Lora', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+    --radius: 12px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.65;
+    min-height: 100vh;
+    padding-bottom: 4rem;
+  }
+
+  /* ── Header ── */
+  .site-header {
+    padding: 3rem 1.5rem 2rem;
+    border-bottom: 1px solid var(--paper-3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .site-header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(176,96,48,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .eyebrow {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 0.6rem;
+  }
+
+  .site-header h1 {
+    font-family: var(--serif);
+    font-size: 1.9rem;
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  .site-header .subtitle {
+    font-size: 13px;
+    color: var(--ink-3);
+    font-style: italic;
+  }
+
+  /* ── Navigation Tabs ── */
+  .nav-tabs {
+    display: flex;
+    overflow-x: auto;
+    gap: 0;
+    border-bottom: 1px solid var(--paper-3);
+    background: var(--paper);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+
+  .nav-tab {
+    flex-shrink: 0;
+    padding: 0.85rem 1.1rem;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--ink-3);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+  }
+
+  .nav-tab.active {
+    color: var(--ember);
+    border-bottom-color: var(--ember);
+  }
+
+  /* ── Sections ── */
+  .section {
+    display: none;
+    padding: 0 1.25rem;
+    animation: fadeIn 0.25s ease;
+  }
+  .section.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Start Here section ── */
+  .start-intro {
+    padding: 1.75rem 0 1rem;
+  }
+
+  .start-intro p {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--ink-2);
+    line-height: 1.7;
+  }
+
+  .entry-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    margin: 1.25rem 0;
+  }
+
+  .entry-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 1.1rem 1.25rem;
+    border-left: 3px solid var(--ember);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  .entry-card.forest { border-left-color: var(--forest); }
+  .entry-card.slate { border-left-color: var(--slate); }
+  .entry-card.gold { border-left-color: var(--gold); }
+  .entry-card.rust { border-left-color: var(--rust); }
+
+  .entry-situation {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 0.35rem;
+  }
+
+  .entry-card p {
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.55;
+  }
+
+  .entry-steps {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ember);
+    margin-top: 0.4rem;
+  }
+
+  .entry-card.forest .entry-steps { color: var(--forest); }
+  .entry-card.slate .entry-steps { color: var(--slate); }
+  .entry-card.gold .entry-steps { color: var(--gold); }
+  .entry-card.rust .entry-steps { color: var(--rust); }
+
+  /* ── Core Principles section ── */
+  .os-block {
+    margin: 1.5rem 0;
+    background: white;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  .os-block-header {
+    padding: 0.85rem 1.25rem;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--paper-2);
+    color: var(--ink-3);
+  }
+
+  .os-block-body {
+    padding: 1.1rem 1.25rem;
+  }
+
+  .os-question {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--ink);
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+  }
+
+  .os-list {
+    list-style: none;
+    margin-top: 0.75rem;
+  }
+
+  .os-list li {
+    font-size: 13.5px;
+    color: var(--ink-2);
+    padding: 0.3rem 0;
+    padding-left: 1rem;
+    position: relative;
+    border-bottom: 1px solid var(--paper-2);
+  }
+  .os-list li:last-child { border-bottom: none; }
+  .os-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--ink-3);
+    font-size: 11px;
+    top: 0.4rem;
+  }
+
+  .two-layer {
+    margin: 1.5rem 0;
+  }
+
+  .layer-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    margin-bottom: 0.85rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  .layer-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 0.5rem;
+  }
+
+  .layer-card.layer-2 .layer-label { color: var(--forest); }
+
+  .layer-card h3 {
+    font-family: var(--serif);
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 0.75rem;
+  }
+
+  .layer-examples {
+    list-style: none;
+  }
+
+  .layer-examples li {
+    font-size: 13px;
+    color: var(--ink-2);
+    font-style: italic;
+    padding: 0.25rem 0;
+    border-bottom: 1px solid var(--paper-2);
+  }
+  .layer-examples li:last-child { border-bottom: none; }
+
+  .equation-block {
+    background: var(--ember-light);
+    border-radius: var(--radius);
+    padding: 1.1rem 1.25rem;
+    text-align: center;
+    margin: 1rem 0;
+  }
+
+  .equation-block p {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--ember);
+    line-height: 1.6;
+  }
+
+  /* ── Process section ── */
+  .phase-header {
+    padding: 1.5rem 0 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .phase-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--ember);
+    flex-shrink: 0;
+  }
+
+  .phase-dot.forest { background: var(--forest); }
+  .phase-dot.slate { background: var(--slate); }
+
+  .phase-header h2 {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  .step-card {
+    background: white;
+    border-radius: var(--radius);
+    margin-bottom: 0.85rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    overflow: hidden;
+  }
+
+  .step-header {
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .step-number {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--ink-3);
+    min-width: 1.5rem;
+    padding-top: 0.15rem;
+  }
+
+  .step-title-block { flex: 1; }
+
+  .step-title {
+    font-family: var(--serif);
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+
+  .step-tagline {
+    font-size: 12px;
+    color: var(--ink-3);
+    margin-top: 0.2rem;
+    font-style: italic;
+  }
+
+  .step-toggle {
+    font-size: 18px;
+    color: var(--ink-3);
+    line-height: 1;
+    padding-top: 0.1rem;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+
+  .step-card.open .step-toggle { transform: rotate(45deg); }
+
+  .step-body {
+    display: none;
+    padding: 0 1.25rem 1.25rem;
+    border-top: 1px solid var(--paper-2);
+  }
+
+  .step-card.open .step-body { display: block; }
+
+  .step-body p {
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.65;
+    margin-top: 0.85rem;
+  }
+
+  .step-body p em {
+    font-style: italic;
+    color: var(--ink);
+  }
+
+  .step-body ul, .step-body ol {
+    margin-top: 0.75rem;
+    padding-left: 1.1rem;
+  }
+
+  .step-body li {
+    font-size: 13.5px;
+    color: var(--ink-2);
+    line-height: 1.55;
+    margin-bottom: 0.35rem;
+  }
+
+  .substep-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-top: 1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .fear-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.75rem;
+    font-size: 13px;
+  }
+
+  .fear-table th {
+    text-align: left;
+    padding: 0.4rem 0.6rem;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    border-bottom: 1px solid var(--paper-3);
+  }
+
+  .fear-table td {
+    padding: 0.45rem 0.6rem;
+    border-bottom: 1px solid var(--paper-2);
+    color: var(--ink-2);
+  }
+
+  .fear-table tr:last-child td { border-bottom: none; }
+
+  .reframe-row {
+    margin-top: 0.75rem;
+    padding: 0.6rem 0.85rem;
+    background: var(--paper-2);
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+
+  .reframe-row .old { color: var(--ink-3); text-decoration: line-through; }
+  .reframe-row .new { color: var(--forest); font-weight: 500; }
+
+  .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+  }
+
+  .tag {
+    font-size: 12px;
+    padding: 0.25rem 0.65rem;
+    background: var(--paper-2);
+    border-radius: 20px;
+    color: var(--ink-2);
+  }
+
+  .expander-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+  }
+
+  .expander-item {
+    background: var(--paper-2);
+    border-radius: 8px;
+    padding: 0.55rem 0.75rem;
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+
+  .action-category {
+    margin-top: 1rem;
+  }
+
+  .action-category-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 0.4rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--paper-3);
+  }
+
+  .highlight-block {
+    background: var(--ember-light);
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    margin-top: 0.85rem;
+  }
+
+  .highlight-block p {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--ember);
+    margin-top: 0;
+  }
+
+  .highlight-block.forest { background: var(--forest-light); }
+  .highlight-block.forest p { color: var(--forest); }
+
+  /* ── Example section ── */
+  .example-container {
+    padding-top: 1.5rem;
+  }
+
+  .example-desire {
+    background: white;
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    text-align: center;
+  }
+
+  .example-desire p {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--ink);
+    line-height: 1.6;
+  }
+
+  .os-comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .os-col {
+    background: white;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  .os-col-header {
+    padding: 0.6rem 1rem;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .os-col.old .os-col-header { background: var(--rust-light); color: var(--rust); }
+  .os-col.new .os-col-header { background: var(--forest-light); color: var(--forest); }
+
+  .os-col ul {
+    list-style: none;
+    padding: 0.75rem 1rem;
+  }
+
+  .os-col li {
+    font-size: 12px;
+    color: var(--ink-2);
+    padding: 0.2rem 0;
+    border-bottom: 1px solid var(--paper-2);
+    line-height: 1.4;
+  }
+  .os-col li:last-child { border-bottom: none; }
+
+  .example-footer {
+    background: var(--paper-2);
+    border-radius: var(--radius);
+    padding: 1.1rem 1.25rem;
+    text-align: center;
+  }
+
+  .example-footer p {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--ink-2);
+    line-height: 1.65;
+  }
+
+  /* ── Section padding ── */
+  .section-pad { padding-top: 1rem; }
+
+  /* ── Home link ── */
+  .home-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 1rem 1.5rem 0;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-3);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.15s;
+    position: relative;
+    z-index: 1;
+  }
+  .home-link:hover { color: var(--ember); }
+
+</style>
+</head>
+<body>
+
+<a href="index.html" class="home-link">← Home</a>
+
+<header class="site-header">
+  <p class="eyebrow">Neil's Practice</p>
+  <h1>Manifestation<br>Field Guide</h1>
+  <p class="subtitle">TBM · Sincero · Human Design · IFS · NeilOS</p>
+</header>
+
+<nav class="nav-tabs" id="nav">
+  <button class="nav-tab active" onclick="showSection('start')">Start Here</button>
+  <button class="nav-tab" onclick="showSection('principles')">Principles</button>
+  <button class="nav-tab" onclick="showSection('process')">The Process</button>
+  <button class="nav-tab" onclick="showSection('example')">Example</button>
+</nav>
+
+<!-- ═══ START HERE ═══ -->
+<section class="section active" id="start">
+  <div class="start-intro">
+    <p>This is a field guide, not a linear process. Find your entry point below.</p>
+  </div>
+
+  <div class="entry-cards">
+    <div class="entry-card">
+      <p class="entry-situation">In acute activation</p>
+      <p>Watchdog running, scarcity spiral starting, anxiety loop.</p>
+      <p class="entry-steps">→ Steps 2, 5, 9</p>
+    </div>
+
+    <div class="entry-card forest">
+      <p class="entry-situation">Working a specific desire</p>
+      <p>Something you're actively trying to call in or clarify.</p>
+      <p class="entry-steps">→ Start at Step 1, move forward</p>
+    </div>
+
+    <div class="entry-card slate">
+      <p class="entry-situation">Something just arrived</p>
+      <p>A yes, a win, unexpected abundance. Don't skip past it.</p>
+      <p class="entry-steps">→ Go directly to Step 11</p>
+    </div>
+
+    <div class="entry-card gold">
+      <p class="entry-situation">Feeling stuck or unclear</p>
+      <p>Can't find the thread. Nothing feels alive.</p>
+      <p class="entry-steps">→ Steps 3 or 5</p>
+    </div>
+
+    <div class="entry-card rust">
+      <p class="entry-situation">Periodic recalibration</p>
+      <p>Checking in with the whole system.</p>
+      <p class="entry-steps">→ Read the Process tab front to back</p>
+    </div>
+  </div>
+
+  <!-- Quick Reference -->
+  <p class="eyebrow" style="margin-top: 1.5rem; margin-bottom: 0.75rem;">Quick Reference</p>
+  <div class="step-card" style="box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+    <div style="padding: 0.25rem 0;">
+      <div style="display:flex; padding: 0.7rem 1.25rem; border-bottom: 1px solid var(--paper-2); gap: 0.75rem; align-items: baseline;">
+        <span style="font-size:11px; color:var(--ink-3); min-width:1.25rem; font-weight:500;">1</span>
+        <span style="font-size:13.5px; color:var(--ink-2);">Notice the desire — <em style="color:var(--ink-3);">What is alive here?</em></span>
+      </div>
+      <div style="display:flex; padding: 0.7rem 1.25rem; border-bottom: 1px solid var(--paper-2); gap: 0.75rem; align-items: baseline;">
+        <span style="font-size:11px; color:var(--ink-3); min-width:1.25rem; font-weight:500;">2</span>
+        <span style="font-size:13.5px; color:var(--ink-2);">Separate the parts — <em style="color:var(--ink-3);">Who is driving?</em></span>
+      </div>
+      <div style="display:flex; padding: 0.7rem 1.25rem; border-bottom: 1px solid var(--paper-2); gap: 0.75rem; align-items: baseline;">
+        <span style="font-size:11px; color:var(--ink-3); min-width:1.25rem; font-weight:500;">3</span>
+        <span style="font-size:13.5px; color:var(--ink-2);">Find the shadow fear — <em style="color:var(--ink-3);">What believes this is unsafe?</em></span>
+      </div>
+      <div style="display:flex; padding: 0.7rem 1.25rem; border-bottom: 1px solid var(--paper-2); gap: 0.75rem; align-items: baseline;">
+        <span style="font-size:11px; color:var(--ink-3); min-width:1.25rem; font-weight:500;">4</span>
+        <span style="font-size:13.5px; color:var(--ink-2);">Rewrite the story — <em style="color:var(--ink-3);">Replace the script</em></span>
+      </div>
+      <div style="display:flex; padding: 0.7rem 1.25rem; border-bottom: 1px solid var(--paper-2); gap: 0.75rem; align-items: baseline;">
+        <span style="font-size:11px; color:var(--ink-3); min-width:1.25rem; font-weight:500;">5</span>
+        <span style="font-size:13.5px; color:var(--ink-2);">Regulate — <em style="color:var(--ink-3);">Soften before the belief can land</em></span>
+      </div>
+      <div style="display:flex; padding: 0.7rem 1.25rem; border-bottom: 1px solid var(--paper-2); gap: 0.75rem; align-items: baseline;">
+        <span style="font-size:11px; color:var(--ink-3); min-width:1.25rem; font-weight:500;">6</span>
+        <span style="font-size:13.5px; color:var(--ink-2);">Expand through evidence — <em style="color:var(--ink-3);">Train the NS to recognize support</em></span>
+      </div>
+      <div style="display:flex; padding: 0.7rem 1.25rem; border-bottom: 1px solid var(--paper-2); gap: 0.75rem; align-items: baseline;">
+        <span style="font-size:11px; color:var(--ink-3); min-width:1.25rem; font-weight:500;">7</span>
+        <span style="font-size:13.5px; color:var(--ink-2);">Act with expectation of support — <em style="color:var(--ink-3);">Small votes for the New OS</em></span>
+      </div>
+      <div style="display:flex; padding: 0.7rem 1.25rem; border-bottom: 1px solid var(--paper-2); gap: 0.75rem; align-items: baseline;">
+        <span style="font-size:11px; color:var(--ink-3); min-width:1.25rem; font-weight:500;">8</span>
+        <span style="font-size:13.5px; color:var(--ink-2);">Respond instead of chase — <em style="color:var(--ink-3);">Become magnetic</em></span>
+      </div>
+      <div style="display:flex; padding: 0.7rem 1.25rem; border-bottom: 1px solid var(--paper-2); gap: 0.75rem; align-items: baseline;">
+        <span style="font-size:11px; color:var(--ink-3); min-width:1.25rem; font-weight:500;">9</span>
+        <span style="font-size:13.5px; color:var(--ink-2);">Stop digging up the seed — <em style="color:var(--ink-3);">Participation without control</em></span>
+      </div>
+      <div style="display:flex; padding: 0.7rem 1.25rem; border-bottom: 1px solid var(--paper-2); gap: 0.75rem; align-items: baseline;">
+        <span style="font-size:11px; color:var(--ink-3); min-width:1.25rem; font-weight:500;">10</span>
+        <span style="font-size:13.5px; color:var(--ink-2);">Normalize the tests — <em style="color:var(--ink-3);">Old OS booting is not collapse</em></span>
+      </div>
+      <div style="display:flex; padding: 0.7rem 1.25rem; gap: 0.75rem; align-items: baseline;">
+        <span style="font-size:11px; color:var(--ink-3); min-width:1.25rem; font-weight:500;">11</span>
+        <span style="font-size:13.5px; color:var(--ink-2);">Receive it — <em style="color:var(--ink-3);">Let it count</em></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PRINCIPLES ═══ -->
+<section class="section" id="principles">
+  <div class="section-pad">
+
+    <div class="os-block">
+      <div class="os-block-header">Old OS Manifests From</div>
+      <div class="os-block-body">
+        <p class="os-question">"What must I do so I can finally be safe?"</p>
+        <ul class="os-list">
+          <li>Scarcity, perfectionism, external validation</li>
+          <li>Overwork, control, certainty</li>
+          <li>Safety through productivity</li>
+          <li>Manifests through force</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="os-block">
+      <div class="os-block-header">New OS Manifests From</div>
+      <div class="os-block-body">
+        <p class="os-question">"What wants to emerge from enoughness, truth, beauty, aliveness, and trust?"</p>
+        <ul class="os-list">
+          <li>I am enough. There is enough.</li>
+          <li>Safety is here. Rest is sacred.</li>
+          <li>Clarity ripens. I don't need to force life.</li>
+          <li>Responsive · strategic · selective · magnetic</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="os-block">
+      <div class="os-block-header">How It Arrives</div>
+      <div class="os-block-body">
+        <p style="font-size:14px; color:var(--ink-2); line-height:1.65;">Through resonance, conversations, invitations, synchronicity, referrals, creative momentum, and spaciousness. Not through panic or over-control.</p>
+        <p style="font-size:14px; color:var(--ink-2); line-height:1.65; margin-top: 0.75rem;">And critically — <em>through specific people</em>. Other humans are not incidental. They are often the conduit.</p>
+      </div>
+    </div>
+
+    <div class="two-layer">
+      <p class="eyebrow" style="margin-bottom: 0.75rem;">The Two-Layer Model</p>
+
+      <div class="layer-card">
+        <p class="layer-label">Layer 1 — The Essence · Be Specific Here</p>
+        <h3>Deeply honest. Emotionally precise.</h3>
+        <ul class="layer-examples">
+          <li>"I want deeply meaningful creative work."</li>
+          <li>"I want financial overflow without sacrificing peace."</li>
+          <li>"I want work that feels like campfire energy."</li>
+          <li>"I want enough money that generosity feels easy."</li>
+          <li>"I want to become a Wayfinder."</li>
+          <li>"I want to help creative people get free."</li>
+        </ul>
+      </div>
+
+      <div class="layer-card layer-2">
+        <p class="layer-label">Layer 2 — The Form · Stay Flexible Here</p>
+        <h3>This or something more aligned.</h3>
+        <div class="reframe-row">
+          <span class="old">"I must land this exact client."</span><br>
+          <span class="new">"I desire aligned work. This may be the path, or merely a doorway."</span>
+        </div>
+        <p style="font-size:13px; color:var(--ink-3); margin-top: 0.75rem; line-height:1.55;">The Watchdog collapses these two layers, gripping the form as though losing control of it means losing the essence. Keep them separate.</p>
+      </div>
+
+      <div class="equation-block">
+        <p>clear desire + emotional embodiment<br>+ openness to form + responsive action</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ PROCESS ═══ -->
+<section class="section" id="process">
+  <div class="section-pad">
+
+    <!-- Phase 1 -->
+    <div class="phase-header">
+      <div class="phase-dot"></div>
+      <h2>Phase 1 — Orienting</h2>
+    </div>
+
+    <div class="step-card" id="step1">
+      <div class="step-header" onclick="toggleStep('step1')">
+        <span class="step-number">01</span>
+        <div class="step-title-block">
+          <p class="step-title">Notice and clarify the desire</p>
+          <p class="step-tagline">What is alive here?</p>
+        </div>
+        <span class="step-toggle">+</span>
+      </div>
+      <div class="step-body">
+        <p>Manifestation often begins with envy, longing, contraction, inspiration, frustration, recurring fantasy, or body activation.</p>
+        <p><em>What is alive here? What am I actually wanting beneath the surface?</em></p>
+        <p>My manifestations seem strongest when tied to:</p>
+        <div class="tag-cloud">
+          <span class="tag">beauty</span><span class="tag">freedom</span><span class="tag">spaciousness</span>
+          <span class="tag">creativity</span><span class="tag">insight</span><span class="tag">emotional depth</span>
+          <span class="tag">contribution</span><span class="tag">meaningful connection</span>
+        </div>
+        <p>Creative restlessness or aesthetic longing is often my first signal. When I find myself drawn to someone's work or life setup — that's not destructive envy. It's often Gate 57 pointing at something real before the mind has named it.</p>
+      </div>
+    </div>
+
+    <div class="step-card" id="step2">
+      <div class="step-header" onclick="toggleStep('step2')">
+        <span class="step-number">02</span>
+        <div class="step-title-block">
+          <p class="step-title">Separate my parts</p>
+          <p class="step-tagline">Who is driving right now?</p>
+        </div>
+        <span class="step-toggle">+</span>
+      </div>
+      <div class="step-body">
+        <p>When activated, identify which part is speaking:</p>
+        <ul style="margin-top: 0.75rem; list-style: none; padding: 0;">
+          <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--paper-2);"><strong>Watchdog</strong> — fear, monitoring, financial scanning, uncertainty intolerance</li>
+          <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--paper-2);"><strong>Bully / Shadow Coach</strong> — perfectionism, productivity as worth</li>
+          <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--paper-2);"><strong>Frantic Creator</strong> — overworking to regain safety</li>
+          <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--paper-2);"><strong>Wayfinder</strong> — trying to framework life prematurely</li>
+          <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--paper-2);"><strong>Bouncer</strong> — boundaries, anger, protection</li>
+          <li style="padding: 0.5rem 0;"><strong style="color: var(--forest);">Ojai Neil</strong> — grounded, spacious, abundant, present</li>
+        </ul>
+        <p>The goal is not destroying the protective parts. It's listening, understanding what they protect, thanking them, and not letting them drive.</p>
+        <div class="highlight-block forest">
+          <p>Is this old safety programming reacting — or is this real aliveness responding? My body already knows the difference.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card" id="step3">
+      <div class="step-header" onclick="toggleStep('step3')">
+        <span class="step-number">03</span>
+        <div class="step-title-block">
+          <p class="step-title">Identify the shadow fear</p>
+          <p class="step-tagline">What believes this is unsafe?</p>
+        </div>
+        <span class="step-toggle">+</span>
+      </div>
+      <div class="step-body">
+        <p>Every desire activates an equal and opposite fear.</p>
+        <table class="fear-table">
+          <tr><th>Desire</th><th>Fear</th></tr>
+          <tr><td>Abundance</td><td>Loss</td></tr>
+          <tr><td>Visibility</td><td>Criticism</td></tr>
+          <tr><td>Freedom</td><td>Instability</td></tr>
+          <tr><td>Meaningful work</td><td>Financial insecurity</td></tr>
+          <tr><td>Rest</td><td>Laziness</td></tr>
+          <tr><td>Expansion</td><td>Rejection</td></tr>
+          <tr><td>Leadership</td><td>Responsibility</td></tr>
+        </table>
+        <p style="margin-top: 0.85rem;">Not <em>"How do I get the thing?"</em> but <em>"What part of me believes the thing is unsafe?"</em></p>
+
+        <p class="substep-label">Origin / Patterning</p>
+        <ul>
+          <li>Who modeled this belief for me?</li>
+          <li>When did effort become tied to safety?</li>
+          <li>What did I learn about worth and productivity growing up?</li>
+        </ul>
+
+        <p class="substep-label">Protection Mechanism</p>
+        <ul>
+          <li>What is this belief trying to protect me from?</li>
+          <li>If I stopped forcing, what do I fear people would think?</li>
+        </ul>
+
+        <p class="substep-label">Identity Layer</p>
+        <ul>
+          <li>Who am I if I'm not the one holding everything together?</li>
+          <li>What part of me still gains value from overfunctioning?</li>
+        </ul>
+
+        <p class="substep-label">Somatic Layer</p>
+        <ul>
+          <li>What sensations arise when I imagine not pushing?</li>
+          <li>What would safety feel like in my body?</li>
+        </ul>
+
+        <p class="substep-label">Expansion Layer</p>
+        <ul>
+          <li>Do I know people who succeed without constant force?</li>
+          <li>What evidence already exists that ease can work?</li>
+        </ul>
+
+        <p class="substep-label">Aligned Action Layer</p>
+        <ul>
+          <li>What is one small action that would reinforce the new belief?</li>
+          <li>What would "enough" look like here?</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="phase-header">
+      <div class="phase-dot forest"></div>
+      <h2>Phase 2 — Shifting</h2>
+    </div>
+
+    <div class="step-card" id="step4">
+      <div class="step-header" onclick="toggleStep('step4')">
+        <span class="step-number">04</span>
+        <div class="step-title-block">
+          <p class="step-title">Rewrite the story</p>
+          <p class="step-tagline">Replace the inherited script</p>
+        </div>
+        <span class="step-toggle">+</span>
+      </div>
+      <div class="step-body">
+        <p>Core inherited scripts:</p>
+        <ul>
+          <li>Safety comes from productivity</li>
+          <li>Money disappears</li>
+          <li>Rest is dangerous</li>
+          <li>My creative work is irresponsible</li>
+          <li>I must prove value to belong</li>
+          <li>There is never enough</li>
+          <li>I need certainty before movement</li>
+        </ul>
+        <p class="substep-label" style="margin-top: 1rem;">Reframes</p>
+        <div class="reframe-row">
+          <span class="old">"If work slows down, danger is coming."</span><br>
+          <span class="new">"Cycles are natural. Life continues supporting me."</span>
+        </div>
+        <div class="reframe-row" style="margin-top: 0.5rem;">
+          <span class="old">"I need certainty before movement."</span><br>
+          <span class="new">"Clarity emerges through response."</span>
+        </div>
+        <div class="reframe-row" style="margin-top: 0.5rem;">
+          <span class="old">"Rest is dangerous."</span><br>
+          <span class="new">"Rest is part of the creative process."</span>
+        </div>
+        <div class="reframe-row" style="margin-top: 0.5rem;">
+          <span class="old">"Creative work isn't safe."</span><br>
+          <span class="new">"Creative work is vital to me being me."</span>
+        </div>
+        <p style="margin-top: 0.85rem; font-size: 13px; color: var(--ink-3);">Not fake positivity. Not bypassing. The reframes have to feel believable, regulating, and spacious.</p>
+      </div>
+    </div>
+
+    <div class="step-card" id="step5">
+      <div class="step-header" onclick="toggleStep('step5')">
+        <span class="step-number">05</span>
+        <div class="step-title-block">
+          <p class="step-title">Regulate the nervous system</p>
+          <p class="step-tagline">Soften before the belief can land</p>
+        </div>
+        <span class="step-toggle">+</span>
+      </div>
+      <div class="step-body">
+        <p>My system manifests better from regulation than intensity. It must soften before a new belief can fully land in my body.</p>
+        <p class="substep-label">States to cultivate</p>
+        <div class="tag-cloud">
+          <span class="tag">spaciousness</span><span class="tag">enoughness</span><span class="tag">calm</span>
+          <span class="tag">trust</span><span class="tag">openness</span><span class="tag">play</span>
+          <span class="tag">generosity</span><span class="tag">non-grasping</span>
+        </div>
+        <p class="substep-label" style="margin-top: 1rem;">Ways to get there</p>
+        <ul>
+          <li>Meditate</li>
+          <li>Move — ride, walk, run</li>
+          <li>Write — journal or In Progress</li>
+          <li>Music — listen to it or make it</li>
+          <li>Create — art or design</li>
+          <li>Get out — coffee shop or bookstore</li>
+          <li>Talk — call or see a friend</li>
+          <li>Empathy — do something for someone else</li>
+          <li>Clean — organize, laundry, maintenance</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step-card" id="step6">
+      <div class="step-header" onclick="toggleStep('step6')">
+        <span class="step-number">06</span>
+        <div class="step-title-block">
+          <p class="step-title">Expand through evidence</p>
+          <p class="step-tagline">Train the nervous system to recognize support</p>
+        </div>
+        <span class="step-toggle">+</span>
+      </div>
+      <div class="step-body">
+        <p>My brain trusts lived proof more than abstraction. Actively gather evidence that the New OS is already true.</p>
+        <ul style="margin-top: 0.75rem;">
+          <li>Money arriving unexpectedly</li>
+          <li>Work returning after slow seasons</li>
+          <li>Referrals appearing naturally</li>
+          <li>People seeking my insight organically</li>
+          <li>Creative work flowing when relaxed</li>
+          <li>Abundance existing before "perfect security"</li>
+        </ul>
+        <p class="substep-label" style="margin-top: 1rem;">Expanders</p>
+        <div class="expander-grid">
+          <div class="expander-item">Rob Bell</div>
+          <div class="expander-item">Rick Rubin</div>
+          <div class="expander-item">Hilma af Klint</div>
+          <div class="expander-item">Kevin Maguire</div>
+          <div class="expander-item">Adam Savage</div>
+          <div class="expander-item">Martha Beck</div>
+          <div class="expander-item">Wanda Weller</div>
+          <div class="expander-item">Robert Irwin</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card" id="step7">
+      <div class="step-header" onclick="toggleStep('step7')">
+        <span class="step-number">07</span>
+        <div class="step-title-block">
+          <p class="step-title">Act like someone who expects support</p>
+          <p class="step-tagline">Small votes for the New OS</p>
+        </div>
+        <span class="step-toggle">+</span>
+      </div>
+      <div class="step-body">
+        <p>Not performatively but practically. Only from a regulated state — this is downstream of Step 5.</p>
+        <p>Once clarity arrives: move quickly, imperfectly, lightly, experimentally.</p>
+        <p>Aligned action feels: relieving, energizing, playful, clean, spacious.<br>Not: frantic, obligatory, identity-preserving, fear-driven.</p>
+
+        <div class="action-category">
+          <p class="action-category-label">Grafica</p>
+          <ul>
+            <li>Price a proposal from actual value, not fear of losing it</li>
+            <li>End a draining client relationship</li>
+            <li>Pursue a project with full confidence</li>
+            <li>Send a follow-up from curiosity, not anxiety</li>
+          </ul>
+        </div>
+
+        <div class="action-category">
+          <p class="action-category-label">Campfire</p>
+          <ul>
+            <li>Reach out because I genuinely want them in the room</li>
+            <li>Write publicly before feeling "ready enough"</li>
+            <li>Offer my rate without apologizing</li>
+            <li>Design from what excites me, not what feels safe to promise</li>
+          </ul>
+        </div>
+
+        <div class="action-category">
+          <p class="action-category-label">Relational</p>
+          <ul>
+            <li>Pursue Courtney from desire, not to manage an outcome</li>
+            <li>Ask for what I want without pre-apologizing</li>
+            <li>Let myself be known, not just facilitate</li>
+          </ul>
+        </div>
+
+        <div class="action-category">
+          <p class="action-category-label">Financial</p>
+          <ul>
+            <li>Draw from reserves intentionally, without shame narrative</li>
+            <li>Make a purchase that signals trust in continued abundance</li>
+            <li>Not check the balance for a defined stretch</li>
+          </ul>
+        </div>
+
+        <div class="action-category">
+          <p class="action-category-label">Inner work</p>
+          <ul>
+            <li>Choose rest before I've "earned" it</li>
+            <li>Sit with uncertainty before reaching for a framework</li>
+            <li>Let intuition speak before Watchdog gets there</li>
+          </ul>
+        </div>
+
+        <div class="highlight-block" style="margin-top: 1rem;">
+          <p>These are small acts of trust. Each one is a vote for the New OS before the outcome is guaranteed.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="phase-header">
+      <div class="phase-dot slate"></div>
+      <h2>Phase 3 — Trusting</h2>
+    </div>
+
+    <div class="step-card" id="step8">
+      <div class="step-header" onclick="toggleStep('step8')">
+        <span class="step-number">08</span>
+        <div class="step-title-block">
+          <p class="step-title">Respond instead of chase</p>
+          <p class="step-tagline">Become magnetic, not forceful</p>
+        </div>
+        <span class="step-toggle">+</span>
+      </div>
+      <div class="step-body">
+        <p>I am not designed to hustle constantly, invent goals from fear, manufacture momentum, or force outcomes.</p>
+        <p>I am designed to become clear, become available, become magnetic, and respond when life opens the door.</p>
+        <p>A significant portion of those openings are <em>relational</em>. The person who asks for my guidance. A coach like Kevin. A referral from someone who trusts me. The invitation to collaborate.</p>
+        <p>My manifestation process includes other people as conduits, not just recipients. Less attention on strategic marketing, more on deepening real relationships and showing up fully in them.</p>
+        <div class="highlight-block forest">
+          <p>The more regulated and present I become, the more visible those openings become.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card" id="step9">
+      <div class="step-header" onclick="toggleStep('step9')">
+        <span class="step-number">09</span>
+        <div class="step-title-block">
+          <p class="step-title">Stop digging up the seed</p>
+          <p class="step-tagline">Participation without control</p>
+        </div>
+        <span class="step-toggle">+</span>
+      </div>
+      <div class="step-body">
+        <p>My Watchdog wants to check, monitor, calculate, project, optimize, and seek certainty — especially financially.</p>
+        <p>But manifestation often requires ambiguity tolerance, patience, non-grasping, and timing.</p>
+        <p>Not passivity. Participation without control.</p>
+        <div class="highlight-block">
+          <p>The financial monitoring loop, the project uncertainty checks — that's Watchdog doing what Watchdog does. Naming it as a manifestation blocker, not just an anxiety habit, is the useful reframe. Every time I dig up the seed to see if it's growing, I interrupt the process.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card" id="step10">
+      <div class="step-header" onclick="toggleStep('step10')">
+        <span class="step-number">10</span>
+        <div class="step-title-block">
+          <p class="step-title">Normalize the tests</p>
+          <p class="step-tagline">Old OS booting is not collapse</p>
+        </div>
+        <span class="step-toggle">+</span>
+      </div>
+      <div class="step-body">
+        <p>My "tests" usually look like:</p>
+        <div class="tag-cloud" style="margin-top: 0.75rem;">
+          <span class="tag">Financial contraction</span>
+          <span class="tag">Productivity guilt</span>
+          <span class="tag">Uncertainty</span>
+          <span class="tag">Slow seasons</span>
+          <span class="tag">Identity confusion</span>
+          <span class="tag">Urgency to optimize</span>
+          <span class="tag">Fear during stillness</span>
+          <span class="tag">Pressure to choose one thing forever</span>
+        </div>
+        <p style="margin-top: 0.85rem;">The goal is not avoiding activation. The goal is noticing the old OS booting automatically, without surrendering authority to it.</p>
+      </div>
+    </div>
+
+    <div class="step-card" id="step11">
+      <div class="step-header" onclick="toggleStep('step11')">
+        <span class="step-number">11</span>
+        <div class="step-title-block">
+          <p class="step-title">Receive it</p>
+          <p class="step-tagline">Let it count</p>
+        </div>
+        <span class="step-toggle">+</span>
+      </div>
+      <div class="step-body">
+        <p>This is where the process completes — and where it most often quietly fails.</p>
+        <p>When the yes arrives. When the client commits. When someone says <em>you changed how I think about this</em> — there is a reflexive move to deflect, minimize, or immediately convert the arrival into the next problem to solve.</p>
+        <p>That's the Watchdog again. It doesn't trust good news. It scans for the catch.</p>
+        <p>Receiving is its own practice. It requires a beat of genuine stillness.</p>
+        <ul style="margin-top: 0.75rem;">
+          <li>Pause when a yes arrives instead of managing logistics immediately</li>
+          <li>Let appreciation actually reach me rather than redirecting it</li>
+          <li>Mark moments of abundance instead of passing through them unmarked</li>
+          <li>Say <em>thank you</em> without adding <em>but I still need to...</em></li>
+          <li>Notice when something worked and stay there for a moment</li>
+        </ul>
+        <p>The inability to receive is itself a worthiness signal. If I can desire, pursue, and respond but can't let it land — the loop never closes. The nervous system never learns that support is real.</p>
+        <p>Receiving is how the evidence in Step 6 actually gets made.</p>
+        <div class="highlight-block forest">
+          <p>Let it count.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ EXAMPLE ═══ -->
+<section class="section" id="example">
+  <div class="example-container">
+
+    <div class="example-desire">
+      <p>"I want $150k/year while doing deeply meaningful creative and guiding work."</p>
+    </div>
+
+    <div class="os-comparison">
+      <div class="os-col old">
+        <div class="os-col-header">Old OS Path</div>
+        <ul>
+          <li>Panic</li>
+          <li>Overwork</li>
+          <li>Overplanning</li>
+          <li>Identity pressure</li>
+          <li>Comparing</li>
+          <li>Forcing offers</li>
+          <li>Misaligned work</li>
+          <li>Constant checking</li>
+        </ul>
+      </div>
+      <div class="os-col new">
+        <div class="os-col-header">New OS Path</div>
+        <ul>
+          <li>Clarify the essence</li>
+          <li>Regulate</li>
+          <li>Release scarcity</li>
+          <li>Create conditions</li>
+          <li>Follow resonance</li>
+          <li>Aligned action</li>
+          <li>Trust unfolding</li>
+          <li>Let identity evolve</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="example-footer">
+      <p>The irony is my system becomes <em>more</em> magnetic when it stops trying to secure safety through force.</p>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  function showSection(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    const tabs = document.querySelectorAll('.nav-tab');
+    const map = { start: 0, principles: 1, process: 2, example: 3 };
+    tabs[map[id]].classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function toggleStep(id) {
+    const card = document.getElementById(id);
+    card.classList.toggle('open');
+  }
+</script>
+
+</body>
+</html>

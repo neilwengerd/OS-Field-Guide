@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>90-Day Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1c1a17;
+    --ink-2: #4a4640;
+    --ink-3: #8a8580;
+    --paper: #f5f1ea;
+    --paper-2: #ede8e0;
+    --paper-3: #ddd8ce;
+    --ember: #b06030;
+    --ember-light: #f5e8dc;
+    --forest: #3a6050;
+    --forest-light: #daeae3;
+    --slate: #3d4d68;
+    --slate-light: #dde4f0;
+    --gold: #8a6820;
+    --gold-light: #f0e8d0;
+    --rust: #7a3828;
+    --rust-light: #f0e0d8;
+    --serif: 'Lora', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+    --radius: 12px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.65;
+    min-height: 100vh;
+    padding-bottom: 5rem;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse 70% 50% at 5% 5%, rgba(176,96,48,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 70% at 95% 95%, rgba(58,96,80,0.04) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Home link ── */
+  .home-link {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 1rem 1.5rem 0;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-3);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.15s;
+  }
+  .home-link:hover { color: var(--ember); }
+
+  /* ── Header ── */
+  .site-header {
+    position: relative;
+    z-index: 1;
+    padding: 1.25rem 1.5rem 2rem;
+    border-bottom: 1px solid var(--paper-3);
+  }
+
+  .eyebrow {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 0.6rem;
+  }
+
+  .site-header h1 {
+    font-family: var(--serif);
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  .site-header .subtitle {
+    font-size: 13px;
+    color: var(--ink-3);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  /* ── Month nav ── */
+  .nav-tabs {
+    display: flex;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--paper-3);
+    background: var(--paper);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    scrollbar-width: none;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+
+  .nav-tab {
+    flex-shrink: 0;
+    padding: 0.85rem 1.2rem;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--ink-3);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+  }
+
+  .nav-tab.active { color: var(--ember); border-bottom-color: var(--ember); }
+
+  /* ── Sections ── */
+  .section { display: none; padding: 0 1.25rem; animation: fadeIn 0.25s ease; position: relative; z-index: 1; }
+  .section.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Month intro ── */
+  .month-intro {
+    padding: 1.5rem 0 1.25rem;
+  }
+
+  .month-theme {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--ink-2);
+    line-height: 1.7;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ── Category cards ── */
+  .category {
+    margin-bottom: 1rem;
+  }
+
+  .category-card {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+  }
+
+  .category-card:hover { transform: translateY(-1px); }
+
+  .category-header {
+    padding: 0.9rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-left: 3px solid var(--paper-3);
+  }
+
+  .category-card.campfire .category-header { border-left-color: var(--ember); }
+  .category-card.grafica .category-header { border-left-color: var(--forest); }
+  .category-card.dashboard .category-header { border-left-color: var(--slate); }
+  .category-card.body .category-header { border-left-color: var(--gold); }
+  .category-card.inprogress .category-header { border-left-color: var(--rust); }
+  .category-card.courtney .category-header { border-left-color: var(--ink-3); }
+
+  .category-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .category-card.campfire .category-name { color: var(--ember); }
+  .category-card.grafica .category-name { color: var(--forest); }
+  .category-card.dashboard .category-name { color: var(--slate); }
+  .category-card.body .category-name { color: var(--gold); }
+  .category-card.inprogress .category-name { color: var(--rust); }
+
+  .category-toggle {
+    font-size: 18px;
+    color: var(--ink-3);
+    transition: transform 0.2s;
+  }
+
+  .category-card.open .category-toggle { transform: rotate(45deg); }
+
+  .category-body {
+    display: none;
+    padding: 0 1.25rem 1.1rem;
+    border-top: 1px solid var(--paper-2);
+  }
+
+  .category-card.open .category-body { display: block; }
+
+  .category-body ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 0.75rem;
+  }
+
+  .category-body li {
+    font-size: 13.5px;
+    color: var(--ink-2);
+    line-height: 1.55;
+    padding: 0.45rem 0 0.45rem 1.25rem;
+    border-bottom: 1px solid var(--paper-2);
+    position: relative;
+  }
+
+  .category-body li:last-child { border-bottom: none; }
+
+  .category-body li::before {
+    content: '·';
+    position: absolute;
+    left: 0.25rem;
+    color: var(--ink-3);
+  }
+
+  /* ── Reflection section ── */
+  .reflection-block {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    padding: 1.25rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .reflection-block h3 {
+    font-family: var(--serif);
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 0.85rem;
+  }
+
+  .reflection-block ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .reflection-block li {
+    font-size: 13.5px;
+    color: var(--ink-2);
+    line-height: 1.6;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--paper-2);
+    font-style: italic;
+  }
+
+  .reflection-block li:last-child { border-bottom: none; }
+
+  /* ── Success block ── */
+  .success-block {
+    background: var(--forest-light);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    margin-top: 1rem;
+  }
+
+  .success-block h3 {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--forest);
+    margin-bottom: 0.75rem;
+  }
+
+  .success-block ul { list-style: none; padding: 0; }
+
+  .success-block li {
+    font-size: 13.5px;
+    color: var(--forest);
+    padding: 0.35rem 0;
+    border-bottom: 1px solid rgba(58,96,80,0.15);
+    line-height: 1.5;
+  }
+
+  .success-block li:last-child { border-bottom: none; }
+
+  /* ── Objective banner ── */
+  .objective-banner {
+    background: var(--ember-light);
+    border-radius: var(--radius);
+    padding: 1.1rem 1.25rem;
+    margin: 1.25rem 0 1rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .objective-banner p {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--ember);
+    line-height: 1.65;
+  }
+</style>
+</head>
+<body>
+
+<a href="index.html" class="home-link">← Home</a>
+
+<header class="site-header">
+  <p class="eyebrow">Summer 2026</p>
+  <h1>90-Day Plan</h1>
+  <p class="subtitle">Focus, Own My Voice, and Evaluate Progress</p>
+</header>
+
+<div class="objective-banner">
+  <p>Use my tools instead of constantly creating new frameworks and strategies. Test them and get to know them. Own my voice while I continue to realize the safety within that path.</p>
+</div>
+
+<nav class="nav-tabs">
+  <button class="nav-tab active" onclick="showSection('june')">June</button>
+  <button class="nav-tab" onclick="showSection('july')">July</button>
+  <button class="nav-tab" onclick="showSection('august')">August</button>
+  <button class="nav-tab" onclick="showSection('reflect')">Reflect</button>
+</nav>
+
+<!-- ═══ JUNE ═══ -->
+<section class="section active" id="june">
+  <div class="month-intro">
+    <p class="month-theme">Test the Tools — Put the OS, manifestation process, and Human Design strategies into practical use.</p>
+  </div>
+
+  <div class="category">
+    <div class="category-card dashboard" onclick="toggleCategory(this)">
+      <div class="category-header">
+        <p class="category-name">Life Dashboard</p>
+        <span class="category-toggle">+</span>
+      </div>
+      <div class="category-body">
+        <ul>
+          <li>Finish the life dashboard with this 90-day plan and create the PWA so it runs offline</li>
+          <li>Check in daily to reinforce the principles</li>
+          <li>Use the manifestation process on something big and something small</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-card campfire" onclick="toggleCategory(this)">
+      <div class="category-header">
+        <p class="category-name">Campfire</p>
+        <span class="category-toggle">+</span>
+      </div>
+      <div class="category-body">
+        <ul>
+          <li>Kick off the new cohort</li>
+          <li>Focus on presence, listening, and integrating Co-Active concepts</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-card grafica" onclick="toggleCategory(this)">
+      <div class="category-header">
+        <p class="category-name">Grafica</p>
+        <span class="category-toggle">+</span>
+      </div>
+      <div class="category-body">
+        <ul>
+          <li>Continue to reinforce my office hours container</li>
+          <li>Do not maximize; sustain</li>
+          <li>Finish portfolio images and update website</li>
+          <li>Define the kind of work I actually want to be doing and consider the filter for deciding if a project or client is right</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-card inprogress" onclick="toggleCategory(this)">
+      <div class="category-header">
+        <p class="category-name">In Progress</p>
+        <span class="category-toggle">+</span>
+      </div>
+      <div class="category-body">
+        <ul>
+          <li>Write and send one edition: "subtractive lens"</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-card body" onclick="toggleCategory(this)">
+      <div class="category-header">
+        <p class="category-name">Body and Nervous System</p>
+        <span class="category-toggle">+</span>
+      </div>
+      <div class="category-body">
+        <ul>
+          <li>Daily meditation</li>
+          <li>Daily movement</li>
+          <li>Continue to unpack bad stories</li>
+          <li>Define what weekly silence actually looks like and protect it</li>
+          <li>Decide on the nervous system workshop — yes or no, this month</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-card courtney" onclick="toggleCategory(this)">
+      <div class="category-header">
+        <p class="category-name">Courtney</p>
+        <span class="category-toggle">+</span>
+      </div>
+      <div class="category-body">
+        <ul>
+          <li>Prepare for counseling</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ JULY ═══ -->
+<section class="section" id="july">
+  <div class="month-intro">
+    <p class="month-theme">Own My Voice — Truly own my voice and make it clear the kind of work I want to be doing.</p>
+  </div>
+
+  <div class="category">
+    <div class="category-card dashboard" onclick="toggleCategory(this)">
+      <div class="category-header">
+        <p class="category-name">Life Dashboard</p>
+        <span class="category-toggle">+</span>
+      </div>
+      <div class="category-body">
+        <ul>
+          <li>Create habits based on what I learned in June</li>
+          <li>Continue to manifest from my true OS</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-card campfire" onclick="toggleCategory(this)">
+      <div class="category-header">
+        <p class="category-name">Campfire</p>
+        <span class="category-toggle">+</span>
+      </div>
+      <div class="category-body">
+        <ul>
+          <li>Midcohort reflections and check-in with the group</li>
+          <li>Schedule a few meetings with people who could connect me with future campers</li>
+          <li>Investigate and meditate on further Co-Active training</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-card grafica" onclick="toggleCategory(this)">
+      <div class="category-header">
+        <p class="category-name">Grafica</p>
+        <span class="category-toggle">+</span>
+      </div>
+      <div class="category-body">
+        <ul>
+          <li>Hold boundaries and sustain</li>
+          <li>Say yes or no according to the work I defined in June</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-card inprogress" onclick="toggleCategory(this)">
+      <div class="category-header">
+        <p class="category-name">In Progress</p>
+        <span class="category-toggle">+</span>
+      </div>
+      <div class="category-body">
+        <ul>
+          <li>Publish a case study (probably J.Selders or Haystack)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-card body" onclick="toggleCategory(this)">
+      <div class="category-header">
+        <p class="category-name">Body and Nervous System</p>
+        <span class="category-toggle">+</span>
+      </div>
+      <div class="category-body">
+        <ul>
+          <li>Daily meditation</li>
+          <li>Daily movement</li>
+          <li>Use the affirmations I created from reframing my stories</li>
+          <li>Integrate the weekly silence practice</li>
+          <li>Continue the workshop, if I said yes</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-card courtney" onclick="toggleCategory(this)">
+      <div class="category-header">
+        <p class="category-name">Courtney</p>
+        <span class="category-toggle">+</span>
+      </div>
+      <div class="category-body">
+        <ul>
+          <li>Continue counseling and do the work to make it stick</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ AUGUST ═══ -->
+<section class="section" id="august">
+  <div class="month-intro">
+    <p class="month-theme">Evaluate Progress — Reflect on what's worked well about the tools.</p>
+  </div>
+
+  <div class="category">
+    <div class="category-card dashboard" onclick="toggleCategory(this)">
+      <div class="category-header">
+        <p class="category-name">Life Dashboard</p>
+        <span class="category-toggle">+</span>
+      </div>
+      <div class="category-body">
+        <ul>
+          <li>Continue the habits that worked</li>
+          <li>Set myself free from what didn't</li>
+          <li>Make any adjustments to the tools</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-card campfire" onclick="toggleCategory(this)">
+      <div class="category-header">
+        <p class="category-name">Campfire</p>
+        <span class="category-toggle">+</span>
+      </div>
+      <div class="category-body">
+        <ul>
+          <li>Decide timing for next cohort</li>
+          <li>Review what's worked well about cohort 2</li>
+          <li>Plan invitations</li>
+          <li>Continue meeting with people who may connect me</li>
+          <li>Schedule Co-Active training</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-card inprogress" onclick="toggleCategory(this)">
+      <div class="category-header">
+        <p class="category-name">In Progress</p>
+        <span class="category-toggle">+</span>
+      </div>
+      <div class="category-body">
+        <ul>
+          <li>No edition in August</li>
+          <li>Plan fall editions</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-card body" onclick="toggleCategory(this)">
+      <div class="category-header">
+        <p class="category-name">Body and Nervous System</p>
+        <span class="category-toggle">+</span>
+      </div>
+      <div class="category-body">
+        <ul>
+          <li>Daily meditation</li>
+          <li>Daily movement</li>
+          <li>Use the affirmations I created from reframing my stories</li>
+          <li>Integrate the weekly silence practice</li>
+          <li>Reflect on what the nervous system work is actually doing</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-card courtney" onclick="toggleCategory(this)">
+      <div class="category-header">
+        <p class="category-name">Courtney</p>
+        <span class="category-toggle">+</span>
+      </div>
+      <div class="category-body">
+        <ul>
+          <li>Reflect on progress</li>
+          <li>Continue to do the work</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ REFLECT ═══ -->
+<section class="section" id="reflect">
+  <div class="month-intro">
+    <p class="month-theme">End-of-quarter questions and markers of success.</p>
+  </div>
+
+  <div class="reflection-block">
+    <h3>End-of-Quarter Reflection</h3>
+    <ul>
+      <li>What does it feel like to go after the work I truly want?</li>
+      <li>Do I feel comfortable owning my own voice?</li>
+      <li>What did I learn from the life dashboard work?</li>
+      <li>Did anything collapse from me being myself?</li>
+      <li>Did I trust myself more by the end of this quarter?</li>
+    </ul>
+  </div>
+
+  <div class="success-block">
+    <h3>Success looks like</h3>
+    <ul>
+      <li>Portfolio updates live</li>
+      <li>In Progress continues</li>
+      <li>Campfire is more real than ever</li>
+      <li>I feel steady and at ease in my own skin</li>
+    </ul>
+  </div>
+</section>
+
+<script>
+  function showSection(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    const map = { june: 0, july: 1, august: 2, reflect: 3 };
+    document.querySelectorAll('.nav-tab')[map[id]].classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function toggleCategory(card) {
+    card.classList.toggle('open');
+  }
+</script>
+
+</body>
+</html>
