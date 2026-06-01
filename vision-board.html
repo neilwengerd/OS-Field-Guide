@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Vision Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1c1a17;
+    --ink-2: #4a4640;
+    --ink-3: #8a8580;
+    --paper: #f5f1ea;
+    --paper-2: #ede8e0;
+    --paper-3: #ddd8ce;
+    --ember: #b06030;
+    --ember-light: #f5e8dc;
+    --serif: 'Lora', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+    --radius: 10px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    min-height: 100vh;
+    padding-bottom: 4rem;
+  }
+
+  /* Home link */
+  .home-link {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 1rem 1.5rem;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-3);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    background: var(--paper);
+    border-bottom: 1px solid var(--paper-3);
+    transition: color 0.15s;
+  }
+  .home-link:hover { color: var(--ember); }
+
+  /* Header */
+  .site-header {
+    padding: 1.5rem 1.5rem 1.25rem;
+    border-bottom: 1px solid var(--paper-3);
+  }
+
+  .eyebrow {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 0.5rem;
+  }
+
+  .site-header h1 {
+    font-family: var(--serif);
+    font-size: 1.9rem;
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+
+  /* Feed */
+  .feed {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .feed-item {
+    background: white;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  }
+
+  .feed-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Load more */
+  .load-more-wrap {
+    padding: 0 1.25rem 1.25rem;
+    text-align: center;
+  }
+
+  .load-more {
+    display: inline-block;
+    padding: 0.7rem 1.75rem;
+    background: white;
+    border: 1px solid var(--paper-3);
+    border-radius: 24px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-3);
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+    letter-spacing: 0.03em;
+  }
+  .load-more:hover { color: var(--ember); border-color: var(--ember); }
+  .load-more:disabled { opacity: 0.4; cursor: default; }
+
+  /* States */
+  .state {
+    padding: 3rem 1.5rem;
+    text-align: center;
+    color: var(--ink-3);
+    font-size: 14px;
+    font-style: italic;
+  }
+
+  .spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--paper-3);
+    border-top-color: var(--ember);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-bottom: 0.75rem;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<a href="index.html" class="home-link">← Home</a>
+
+<header class="site-header">
+  <p class="eyebrow">Personal OS</p>
+  <h1>Vision Board</h1>
+</header>
+
+<div id="feed" class="feed"></div>
+<div id="load-more-wrap" class="load-more-wrap" style="display:none;">
+  <button class="load-more" id="load-more-btn" onclick="loadMore()">Load more</button>
+</div>
+
+<script>
+  const API_KEY = '60cGOrq1YB5SMkmJxhqvIaX54WXRtdDycjKPvFcVTn0GzHj81P';
+  const BLOG = 'duepistoni.tumblr.com';
+  const PER_PAGE = 12;
+  let offset = 0;
+  let loading = false;
+  let exhausted = false;
+
+  const feed = document.getElementById('feed');
+  const loadMoreWrap = document.getElementById('load-more-wrap');
+  const loadMoreBtn = document.getElementById('load-more-btn');
+
+  function showLoading() {
+    if (offset === 0) {
+      feed.innerHTML = '<div class="state"><div class="spinner"></div><br>Loading...</div>';
+    }
+  }
+
+  function fetchPhotos() {
+    if (loading || exhausted) return;
+    loading = true;
+    loadMoreBtn.disabled = true;
+
+    const url = `https://api.tumblr.com/v2/blog/${BLOG}/posts/photo?api_key=${API_KEY}&limit=${PER_PAGE}&offset=${offset}`;
+
+    fetch(url)
+      .then(r => r.json())
+      .then(data => {
+        if (offset === 0) feed.innerHTML = '';
+
+        const posts = data.response && data.response.posts ? data.response.posts : [];
+
+        if (posts.length === 0) {
+          if (offset === 0) {
+            feed.innerHTML = '<div class="state">No photos found.</div>';
+          }
+          exhausted = true;
+          loadMoreWrap.style.display = 'none';
+          return;
+        }
+
+        posts.forEach(post => {
+          if (!post.photos) return;
+          post.photos.forEach(photo => {
+            // Pick the largest alt size under 1280px wide, or original
+            let src = photo.original_size.url;
+            if (photo.alt_sizes && photo.alt_sizes.length > 0) {
+              const suitable = photo.alt_sizes.filter(s => s.width <= 1280);
+              if (suitable.length > 0) src = suitable[0].url;
+            }
+
+            const item = document.createElement('div');
+            item.className = 'feed-item';
+            item.innerHTML = `<img src="${src}" alt="" loading="lazy">`;
+            feed.appendChild(item);
+          });
+        });
+
+        offset += posts.length;
+
+        if (posts.length < PER_PAGE) {
+          exhausted = true;
+          loadMoreWrap.style.display = 'none';
+        } else {
+          loadMoreWrap.style.display = 'block';
+          loadMoreBtn.disabled = false;
+        }
+
+        loading = false;
+      })
+      .catch(err => {
+        console.error(err);
+        if (offset === 0) {
+          feed.innerHTML = '<div class="state">Could not load feed. Check your connection.</div>';
+        }
+        loading = false;
+        loadMoreBtn.disabled = false;
+      });
+  }
+
+  function loadMore() {
+    fetchPhotos();
+  }
+
+  // Initial load
+  showLoading();
+  fetchPhotos();
+</script>
+
+</body>
+</html>
